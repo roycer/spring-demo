@@ -6,7 +6,6 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,8 +24,8 @@ import pe.gob.contraloria.demo.business.service.MenuService;
 import pe.gob.contraloria.demo.presentation.exception.ModelNotFoundException;
 
 @RestController
-@RequestMapping("/defaults")
-public class DefaultController {
+@RequestMapping("/menus")
+public class MenuController {
 	
 	@Autowired
 	private MenuService menuService;
@@ -55,9 +54,9 @@ public class DefaultController {
 
 		List<MenuResponse> obj = menuService.get(limit);
 
-		if (obj == null) {
-			throw new ModelNotFoundException("Error en la lectura");
-		}
+//		if (obj == null) {
+//			throw new ModelNotFoundException("Error en la lectura");
+//		}
 		
 		return ResponseEntity.ok(obj);
 		
