@@ -1,4 +1,4 @@
-package pe.gob.contraloria.demo.business.dto;
+package pe.gob.contraloria.demo.presentation.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

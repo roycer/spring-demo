@@ -5,9 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import pe.gob.contraloria.demo.business.dto.MenuRequest;
-import pe.gob.contraloria.demo.business.dto.MenuResponse;
 import pe.gob.contraloria.demo.persistence.repository.MenuRepository;
+import pe.gob.contraloria.demo.presentation.dto.MenuRequest;
+import pe.gob.contraloria.demo.presentation.dto.MenuResponse;
 
 
 @Service
