@@ -1,6 +1,6 @@
 package pe.gob.contraloria.demo.business.dto;
 
 
-public class MenuResponseDto {
+public class MenuResponse {
 
 }

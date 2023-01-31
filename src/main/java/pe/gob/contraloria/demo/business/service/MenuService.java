@@ -2,16 +2,15 @@ package pe.gob.contraloria.demo.business.service;
 
 import java.util.List;
 
-import pe.gob.contraloria.demo.business.dto.MenuRegisterDto;
-import pe.gob.contraloria.demo.business.dto.MenuResponseDto;
-import pe.gob.contraloria.demo.business.dto.MenuUpdateDto;
+import pe.gob.contraloria.demo.business.dto.MenuRequest;
+import pe.gob.contraloria.demo.business.dto.MenuResponse;
 
 public interface MenuService {
 
-	MenuResponseDto get(String code);
-	List<MenuResponseDto> get(int limit);
-	MenuResponseDto register(MenuRegisterDto menu);
-	MenuResponseDto update(MenuUpdateDto menu);
-	void delete(String code);
+	MenuResponse get(String code);
+	List<MenuResponse> get(int limit);
+	MenuResponse register(MenuRequest menu);
+	MenuResponse update(MenuRequest menu);
+	boolean delete(String code);
 
 }
