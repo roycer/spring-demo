@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import pe.gob.contraloria.demo.business.dto.MenuDto;
+import pe.gob.contraloria.demo.business.dto.MenuResponseDto;
 import pe.gob.contraloria.demo.persistence.repository.MenuRepository;
 
 
@@ -16,13 +16,13 @@ public class MenuServiceImpl implements MenuService {
 	private MenuRepository repository;
 	
 	@Override
-	public MenuDto get(String code) {
+	public MenuResponseDto get(String code) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<MenuDto> get(int limit) {
+	public List<MenuResponseDto> get(int limit) {
 		return null;
 	}
 

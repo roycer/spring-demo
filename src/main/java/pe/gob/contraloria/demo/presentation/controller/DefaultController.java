@@ -19,7 +19,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import pe.gob.contraloria.demo.business.dto.MenuDto;
+import pe.gob.contraloria.demo.business.dto.MenuRegisterDto;
+import pe.gob.contraloria.demo.business.dto.MenuResponseDto;
+import pe.gob.contraloria.demo.business.dto.MenuUpdateDto;
 import pe.gob.contraloria.demo.business.service.MenuService;
 import pe.gob.contraloria.demo.persistence.model.Menu;
 import pe.gob.contraloria.demo.presentation.exception.ModelNotFoundException;
@@ -33,12 +35,12 @@ public class DefaultController {
 	private MenuService menuService;
 
 	@GetMapping("/{id}")
-	public ResponseEntity<MenuDto> show(
+	public ResponseEntity<?> show(
 			@PathVariable("id") String id,
 			@RequestHeader HttpHeaders headers
 	) {
 
-		MenuDto obj = menuService.get(id);
+		MenuResponseDto obj = menuService.get(id);
 
 		if (obj == null) {
 			throw new ModelNotFoundException("ID NO ENCONTRADO " + id);
@@ -54,7 +56,7 @@ public class DefaultController {
 			@RequestParam(value = "limit", required = false, defaultValue = "1000") int limit
 	) {
 
-		List<MenuDto> obj = menuService.get(limit);
+		List<MenuResponseDto> obj = menuService.get(limit);
 
 		if (obj == null) {
 			throw new ModelNotFoundException("No encontrado");
@@ -64,17 +66,21 @@ public class DefaultController {
 		
 	}
 	
-//	@PostMapping
-//	public ResponseEntity<ResponseApi<Menu>> post(@Valid @RequestBody Menu body) 
-//	{
-//    	ResponseApi response = new ResponseApi();
-//    	response.setStatusCode(HttpStatus.CREATED.value());
-//    	response.setStatus("Ok");
-//    	menuService.register(body);
-//    	
-//    	return new ResponseEntity<>(response, HttpStatus.CREATED);
-//    }
-//	
+	@PostMapping
+	public ResponseEntity<?> store(
+			@Valid @RequestBody MenuRegisterDto menuRegisterDto
+		) 
+	{
+		
+		MenuResponseDto obj = menuService.register(menuRegisterDto);
+		
+		if (obj == null) {
+			throw new ModelNotFoundException("No encontrado");
+		}
+		
+		return ResponseEntity.ok(obj);
+    }
+	
 //	@PutMapping
 //	public ResponseEntity<ResponseApi<Menu>> put(@Valid @RequestBody Menu body) 
 //	{
