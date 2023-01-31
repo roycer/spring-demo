@@ -9,8 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 @Entity
 @Table(name = "BLD_MENU")
 public class Menu implements Serializable {
@@ -20,52 +18,31 @@ public class Menu implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="NMEN_CODIGO", unique=true, nullable=false, precision=10)
-	@JsonProperty("id")
 	private long nmenCodigo;
 	
 	@Column(name="NPER_CODIGO", nullable=true, precision=10)
-	@JsonProperty("code")
 	private long nperCodigo;
 	
 	@Column(name="CMEN_NOMBRE", nullable=false, length=50)
-	@JsonProperty("name")
 	private String cmenNombre;
 	
 	@Column(name="CMEN_ASOCIADO", nullable=true, length=200)
-	@JsonProperty("associate")
 	private String cmenAsociado;
 	
 	@Column(name="CMEN_SEQUENCIA", nullable=true, precision=10)
-	@JsonProperty("order")
 	private long cmenSecuencia;
 	
 	@Column(name="CMEN_ICONO", nullable=true, length=400)
-	@JsonProperty("image")
 	private String cmenIcono;
 	
 	@Column(name="CMEN_VINCULO", nullable=true, length=200)
-	@JsonProperty("link")
 	private String cmenVinculo;
 	
 	@Column(name="CMEN_ESTADO", nullable=true, length=1)
-	@JsonProperty("allow")
 	private String cmenEstado;
 
 	public Menu() {
 		super();
-	}
-
-	public Menu(long nmenCodigo, long nperCodigo, String cmenNombre, String cmenAsociado, long cmenSecuencia,
-			String cmenIcono, String cmenVinculo, String cmenEstado) {
-		super();
-		this.nmenCodigo = nmenCodigo;
-		this.nperCodigo = nperCodigo;
-		this.cmenNombre = cmenNombre;
-		this.cmenAsociado = cmenAsociado;
-		this.cmenSecuencia = cmenSecuencia;
-		this.cmenIcono = cmenIcono;
-		this.cmenVinculo = cmenVinculo;
-		this.cmenEstado = cmenEstado;
 	}
 
 	@Override

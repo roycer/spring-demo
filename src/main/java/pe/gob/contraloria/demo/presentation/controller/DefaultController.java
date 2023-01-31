@@ -32,7 +32,7 @@ public class DefaultController {
 	private MenuService menuService;
 
 	@GetMapping("/{id}")
-	public ResponseEntity<?> show(
+	public ResponseEntity<MenuResponse> show(
 			@PathVariable("id") String id,
 			@RequestHeader HttpHeaders headers
 	) {
@@ -48,7 +48,7 @@ public class DefaultController {
 	}
 
 	@GetMapping
-	public ResponseEntity<?> index(
+	public ResponseEntity<List<MenuResponse>> index(
 			@RequestHeader HttpHeaders headers,
 			@RequestParam(value = "limit", required = false, defaultValue = "1000") int limit
 	) {
@@ -56,7 +56,7 @@ public class DefaultController {
 		List<MenuResponse> obj = menuService.get(limit);
 
 		if (obj == null) {
-			throw new ModelNotFoundException("No encontrado");
+			throw new ModelNotFoundException("Error en la lectura");
 		}
 		
 		return ResponseEntity.ok(obj);
@@ -64,7 +64,7 @@ public class DefaultController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<?> store(
+	public ResponseEntity<MenuResponse> store(
 			@Valid @RequestBody MenuRequest menuRequest
 		) 
 	{
@@ -72,19 +72,19 @@ public class DefaultController {
 		MenuResponse obj = menuService.register(menuRequest);
 		
 		if (obj == null) {
-			throw new ModelNotFoundException("No encontrado");
+			throw new ModelNotFoundException("Error en la creacion");
 		}
 		
 		return ResponseEntity.ok(obj);
     }
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<?> update(@Valid @RequestBody MenuRequest menuRequest) 
+	public ResponseEntity<MenuResponse> update(@Valid @RequestBody MenuRequest menuRequest) 
 	{
 		MenuResponse obj = menuService.update(menuRequest);
 		
 		if (obj == null) {
-			throw new ModelNotFoundException("No encontrado");
+			throw new ModelNotFoundException("Error en la Actualizacion");
 		}
 		
 		return ResponseEntity.ok(obj);
@@ -92,11 +92,11 @@ public class DefaultController {
 	
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<?> destroy(@PathVariable("id") String code) 
+	public ResponseEntity<String> destroy(@PathVariable("id") String code) 
 	{
 		
 		if (!menuService.delete(code)) {
-			throw new ModelNotFoundException("No encontrado");
+			throw new ModelNotFoundException("Error en la Eliminacion");
 		}
 		
 		return ResponseEntity.ok("No se pudo eliminar");
