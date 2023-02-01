@@ -6,6 +6,7 @@ import javax.validation.constraints.Size;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -39,15 +40,15 @@ public class MenuController {
 		MenuResponse obj = menuService.get(id);
 		if (obj == null) 
 			throw new ModelNotFoundException("Id no encontrado " + id);
-		return ResponseEntity.ok(obj);		
+		return new ResponseEntity<>(obj, HttpStatus.OK);		
 	}
 
 	@GetMapping
 	public ResponseEntity<List<MenuResponse>> index(@RequestHeader HttpHeaders headers,	@RequestParam(value = "limit", required = false, defaultValue = "1000") Integer limit){
-		List<MenuResponse> obj = menuService.get(limit);
-		if (obj == null) 
+		List<MenuResponse> objs = menuService.get(limit);
+		if (objs == null) 
 			throw new ModelNotFoundException("Error en la lectura");
-		return ResponseEntity.ok(obj);
+		return new ResponseEntity<>(objs, HttpStatus.OK);
 	}
 	
 	@PostMapping
@@ -55,7 +56,7 @@ public class MenuController {
 		MenuResponse obj = menuService.register(menuRequest);
 		if (obj == null) 
 			throw new ModelNotFoundException("Error en la creacion");
-		return ResponseEntity.ok(obj);
+		return new ResponseEntity<>(obj, HttpStatus.CREATED);
     }
 	
 	@PutMapping("/{id}")
@@ -63,7 +64,7 @@ public class MenuController {
 		MenuResponse obj = menuService.update(menuRequest);
 		if (obj == null) 
 			throw new ModelNotFoundException("Error en la Actualizacion");
-		return ResponseEntity.ok(obj);
+		return new ResponseEntity<>(obj, HttpStatus.OK);
     }
 	
 
@@ -71,6 +72,6 @@ public class MenuController {
 	public ResponseEntity<String> destroy(@PathVariable("id") String code){
 		if (!menuService.delete(code)) 
 			throw new ModelNotFoundException("Error en la Eliminacion");
-		return ResponseEntity.ok("No se pudo eliminar");
+		return new ResponseEntity<>("Se ha eliminado correctamente", HttpStatus.OK);
     }
 }

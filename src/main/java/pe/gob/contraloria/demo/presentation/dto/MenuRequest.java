@@ -7,6 +7,7 @@ import javax.validation.constraints.Pattern;
 
 public class MenuRequest {
 
+	//ejemplo: texto
     @Pattern(regexp = "^[a-zA-Z0-9]{2,10}$", message = "Mínimo tiene que contener un carácter")
     private String name;
 
