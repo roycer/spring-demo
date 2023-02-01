@@ -49,11 +49,12 @@ public class MenuController {
 
 	@GetMapping
 	public ResponseEntity<List<MenuResponse>> index(@RequestParam(value = "nroPagina", required = true) Integer nroPagina, @RequestParam(value = "regXPagina", required = true) Integer regXPagina, @RequestParam(value = "ordenar", required = true) String ordenar, @RequestHeader HttpHeaders headers){
-		List<MenuResponse> objs = menuService.get(PageRequest.of(nroPagina, regXPagina, Sort.by("id").descending()));
-		if (objs == null) 
+		List<MenuResponse> objs = menuService.get(PageRequest.of(nroPagina, regXPagina, Sort.by(ordenar).descending()));
+		if (objs == null)
 			throw new ModelNotFoundException("Error en la lectura");
 		return new ResponseEntity<>(objs, HttpStatus.OK);
-	};	
+	}
+	
 	@PostMapping
 	public ResponseEntity<MenuResponse> store(@RequestBody MenuRequest menuRequest, @RequestHeader HttpHeaders headers){
 		MenuResponse obj = menuService.register(menuRequest);
