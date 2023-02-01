@@ -2,9 +2,13 @@ package pe.gob.contraloria.demo.presentation.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,7 +40,7 @@ public class MenuController {
 	private MenuService menuService;
 
 	@GetMapping("/{id}")
-	public ResponseEntity<MenuResponse> show(@Size(min = 1, message = "Mínimo debe contener un caracter") @PathVariable("id") String id){
+	public ResponseEntity<MenuResponse> show(@Pattern(regexp = "^[a-zA-Z0-9]{1,7}$", message = "Mínimo tiene que contener un carácter") @PathVariable(value = "id", required = true) String id, @RequestHeader HttpHeaders headers){
 		MenuResponse obj = menuService.get(id);
 		if (obj == null) 
 			throw new ModelNotFoundException("Id no encontrado " + id);
@@ -44,34 +48,34 @@ public class MenuController {
 	}
 
 	@GetMapping
-	public ResponseEntity<List<MenuResponse>> index(@RequestHeader HttpHeaders headers,	@RequestParam(value = "limit", required = false, defaultValue = "1000") Integer limit){
-		List<MenuResponse> objs = menuService.get(limit);
+	public ResponseEntity<List<MenuResponse>> index(@RequestParam(value = "nroPagina", required = true) Integer nroPagina, @RequestParam(value = "regXPagina", required = true) Integer regXPagina, @RequestParam(value = "ordenar", required = true) String ordenar, @RequestHeader HttpHeaders headers){
+		List<MenuResponse> objs = menuService.get(PageRequest.of(nroPagina, regXPagina, Sort.by("id").descending()));
 		if (objs == null) 
 			throw new ModelNotFoundException("Error en la lectura");
 		return new ResponseEntity<>(objs, HttpStatus.OK);
-	}
-	
+	};	
 	@PostMapping
-	public ResponseEntity<MenuResponse> store(@RequestBody MenuRequest menuRequest){
+	public ResponseEntity<MenuResponse> store(@RequestBody MenuRequest menuRequest, @RequestHeader HttpHeaders headers){
 		MenuResponse obj = menuService.register(menuRequest);
 		if (obj == null) 
-			throw new ModelNotFoundException("Error en la creacion");
+			throw new ModelNotFoundException("Error en la creación");
 		return new ResponseEntity<>(obj, HttpStatus.CREATED);
     }
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<MenuResponse> update(@RequestBody MenuRequest menuRequest){
+	public ResponseEntity<MenuResponse> update(@RequestBody MenuRequest menuRequest, @RequestHeader HttpHeaders headers){
 		MenuResponse obj = menuService.update(menuRequest);
 		if (obj == null) 
-			throw new ModelNotFoundException("Error en la Actualizacion");
+			throw new ModelNotFoundException("Error en la Actualización");
 		return new ResponseEntity<>(obj, HttpStatus.OK);
     }
 	
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<String> destroy(@PathVariable("id") String code){
+	public ResponseEntity<String> destroy(@PathVariable("id") String code, @RequestHeader HttpHeaders headers){
 		if (!menuService.delete(code)) 
-			throw new ModelNotFoundException("Error en la Eliminacion");
+			throw new ModelNotFoundException("Error en la Eliminación");
 		return new ResponseEntity<>("Se ha eliminado correctamente", HttpStatus.OK);
     }
+	
 }
