@@ -14,6 +14,16 @@ public class MenuRequest {
     @Min(value = 1, message = "Numero ingresado debe ser mayor a 1")
     @Max(value = 100, message = "Numero ingresado no debe ser mayor a 100")
     @NotBlank(message = "Este un campo obligatorio")
-    private int order;
+    private long secuence;
+
     
+
+	public String getName() {
+		return name;
+	}
+
+	public long getSecuence() {
+		return secuence;
+	}
+
 }

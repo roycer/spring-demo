@@ -9,5 +9,5 @@ import pe.gob.contraloria.demo.persistence.model.Menu;
 public interface MenuRepository extends PagingAndSortingRepository<Menu, String> {
 
 	Page<Menu> findAll(Pageable pageable);
-	
+	Menu findFirstByCode(String code);
 }
