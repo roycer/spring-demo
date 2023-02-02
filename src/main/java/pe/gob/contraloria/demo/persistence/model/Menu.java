@@ -1,6 +1,7 @@
 package pe.gob.contraloria.demo.persistence.model;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,111 +11,102 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "BLD_MENU")
+@Table(name = "SSC_ABD_MENU")
 public class Menu implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="NMEN_CODIGO", unique=true, nullable=false, precision=10)
-	private long nmenCodigo;
+	@Column(name="CMEN_CODIGO", unique=true, nullable=false, precision=40)
+	private String code;
 	
-	@Column(name="NPER_CODIGO", nullable=true, precision=10)
-	private long nperCodigo;
+	@Column(name="CPER_CODIGO", nullable=false, precision=8)
+	private String codeAllow;
 	
-	@Column(name="CMEN_NOMBRE", nullable=false, length=50)
-	private String cmenNombre;
+	@Column(name="CMEN_CODINTERNO", nullable=false, precision=40)
+	private String codeIntern;
 	
-	@Column(name="CMEN_ASOCIADO", nullable=true, length=200)
-	private String cmenAsociado;
+	@Column(name="CMEN_NOMBRE", nullable=false, length=100)
+	private String name;
 	
-	@Column(name="CMEN_SEQUENCIA", nullable=true, precision=10)
-	private long cmenSecuencia;
+	@Column(name="CMEN_ORDEN", nullable=false)
+	private Integer order;
 	
-	@Column(name="CMEN_ICONO", nullable=true, length=400)
-	private String cmenIcono;
+	@Column(name="CMEN_ESTADO", nullable=false, precision=1)
+	private String state;
 	
-	@Column(name="CMEN_VINCULO", nullable=true, length=200)
-	private String cmenVinculo;
+	@Column(name="DMEN_FEC_ELI", nullable=true)
+	private Timestamp deleted;
 	
-	@Column(name="CMEN_ESTADO", nullable=true, length=1)
-	private String cmenEstado;
-
 	public Menu() {
 		super();
 	}
 
 	@Override
 	public String toString() {
-		return "BldMenu [nmenCodigo=" + nmenCodigo + ", nperCodigo=" + nperCodigo + ", cmenNombre=" + cmenNombre
-				+ ", cmenAsociado=" + cmenAsociado + ", cmenSecuencia=" + cmenSecuencia + ", cmenIcono=" + cmenIcono
-				+ ", cmenVinculo=" + cmenVinculo + ", cmenEstado=" + cmenEstado + "]";
+		return "Menu [code=" + code + ", codeAllow=" + codeAllow + ", codeIntern=" + codeIntern + ", name=" + name
+				+ ", order=" + order + ", state=" + state + ", deleted=" + deleted + "]";
 	}
 
-	public long getNmenCodigo() {
-		return nmenCodigo;
+	public String getCodeAllow() {
+		return codeAllow;
 	}
 
-	public void setNmenCodigo(long nmenCodigo) {
-		this.nmenCodigo = nmenCodigo;
+	public void setCodeAllow(String codeAllow) {
+		this.codeAllow = codeAllow;
 	}
 
-	public long getNperCodigo() {
-		return nperCodigo;
+	public String getCodeIntern() {
+		return codeIntern;
 	}
 
-	public void setNperCodigo(long nperCodigo) {
-		this.nperCodigo = nperCodigo;
+	public void setCodeIntern(String codeIntern) {
+		this.codeIntern = codeIntern;
 	}
 
-	public String getCmenNombre() {
-		return cmenNombre;
+	public String getState() {
+		return state;
 	}
 
-	public void setCmenNombre(String cmenNombre) {
-		this.cmenNombre = cmenNombre;
+	public void setState(String state) {
+		this.state = state;
 	}
 
-	public String getCmenAsociado() {
-		return cmenAsociado;
+	public String getCode() {
+		return code;
 	}
 
-	public void setCmenAsociado(String cmenAsociado) {
-		this.cmenAsociado = cmenAsociado;
+	public void setCode(String code) {
+		this.code = code;
 	}
 
-	public long getCmenSecuencia() {
-		return cmenSecuencia;
+	public String getName() {
+		return name;
 	}
 
-	public void setCmenSecuencia(long cmenSecuencia) {
-		this.cmenSecuencia = cmenSecuencia;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public String getCmenIcono() {
-		return cmenIcono;
+	public Integer getOrder() {
+		return order;
 	}
 
-	public void setCmenIcono(String cmenIcono) {
-		this.cmenIcono = cmenIcono;
+	public void setOrder(Integer order) {
+		this.order = order;
 	}
 
-	public String getCmenVinculo() {
-		return cmenVinculo;
+	public Timestamp getDeleted() {
+		return deleted;
 	}
 
-	public void setCmenVinculo(String cmenVinculo) {
-		this.cmenVinculo = cmenVinculo;
+	public void setDeleted(Timestamp deleted) {
+		this.deleted = deleted;
 	}
 
-	public String getCmenEstado() {
-		return cmenEstado;
-	}
 
-	public void setCmenEstado(String cmenEstado) {
-		this.cmenEstado = cmenEstado;
-	}
+	
 	
 	
 	

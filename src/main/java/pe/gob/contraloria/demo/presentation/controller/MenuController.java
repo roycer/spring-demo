@@ -2,7 +2,7 @@ package pe.gob.contraloria.demo.presentation.controller;
 
 import java.util.List;
 
-
+import javax.validation.Valid;
 import javax.validation.constraints.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,7 +56,7 @@ public class MenuController {
 		
 		List<MenuResponse> objs = menuService.get(nroPagina, regXPagina, ordenar);
 		
-		if (objs == null) return new ResponseEntity<>(new ResponseApi<>(objs,"No se encontraron registros"), HttpStatus.NOT_FOUND);	
+		if (objs.isEmpty()) return new ResponseEntity<>(new ResponseApi<>(objs,"No se encontraron registros"), HttpStatus.NOT_FOUND);	
 		
 		return new ResponseEntity<>(new ResponseApi<>(objs,"La petición se realizó correctamente") , HttpStatus.OK);
 		
@@ -64,14 +64,14 @@ public class MenuController {
 	
 	@PostMapping
 	public ResponseEntity<ResponseApi<MenuResponse>> store(
-			@RequestBody MenuRequest menuRequest, 
+			@Valid @RequestBody MenuRequest menuRequest, 
 			@RequestHeader HttpHeaders headers) {
 		
 		MenuResponse obj = menuService.register(menuRequest);
 		
 		if (obj == null) return new ResponseEntity<>(new ResponseApi<>(obj,"La petición no se pudo realizar") , HttpStatus.NOT_ACCEPTABLE);
 		
-		return new ResponseEntity<>(new ResponseApi<>(obj,"La actualización se realizó correctamente") , HttpStatus.CREATED);
+		return new ResponseEntity<>(new ResponseApi<>(obj,"El registro se realizó correctamente") , HttpStatus.CREATED);
 		
     }
 	
@@ -81,7 +81,7 @@ public class MenuController {
 			@RequestBody MenuRequest menuRequest, 
 			@RequestHeader HttpHeaders headers) {
 		
-		MenuResponse obj = menuService.update(menuRequest);
+		MenuResponse obj = menuService.update(code, menuRequest);
 		
 		if (obj == null) new ResponseEntity<>(new ResponseApi<>(obj,"La petición no se pudo realizar"), HttpStatus.NOT_ACCEPTABLE);	
 		

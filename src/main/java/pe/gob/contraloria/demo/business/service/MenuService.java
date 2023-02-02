@@ -10,7 +10,7 @@ public interface MenuService {
 	MenuResponse get(String code);
 	List<MenuResponse> get(Integer nroPagina, Integer regXPagina, String ordenar);
 	MenuResponse register(MenuRequest menu);
-	MenuResponse update(MenuRequest menu);
+	MenuResponse update(String code, MenuRequest menu);
 	boolean delete(String code);
 
 }

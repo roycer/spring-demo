@@ -22,6 +22,10 @@ public class MenuServiceImpl implements MenuService {
 	@Override
 	public MenuResponse get(String code) {
 		
+		 Menu menu = menuRepository.findFirstByCode(code);
+		
+		 if(menu == null) return null;
+		
 		return this.convertToMenuResponse(menuRepository.findFirstByCode(code));
 	}
 
@@ -44,9 +48,12 @@ public class MenuServiceImpl implements MenuService {
 	}
 
 	@Override
-	public MenuResponse update(MenuRequest menu) {
-
-		return this.convertToMenuResponse(this.menuRepository.save(this.convertToMenuEntity(menu)));
+	public MenuResponse update(String code, MenuRequest menuRequest) {
+		
+		Menu menu = this.convertToMenuEntity(menuRequest);
+		menu.setCode(code);
+		
+		return this.convertToMenuResponse(this.menuRepository.save(menu));
 		
 	}
 
@@ -58,14 +65,20 @@ public class MenuServiceImpl implements MenuService {
 	private MenuResponse convertToMenuResponse(Menu menu) {
 		
 		MenuResponse menuResponse = new MenuResponse();
-		menuResponse.setName(menu.getCmenNombre());
+		menuResponse.setName(menu.getName());
 		return menuResponse;
 	}
 	
 	private Menu convertToMenuEntity(MenuRequest menuRequest) {
 		
 		Menu menu = new Menu();
-		menu.setCmenNombre(menuRequest.getName());
+		menu.setCode("2");
+		menu.setCodeAllow("1");
+		menu.setCodeIntern("test");
+		menu.setName(menuRequest.getName());
+		menu.setOrder(menuRequest.getOrder());
+		menu.setState("1");
+		
 		
 		return menu;
 		
