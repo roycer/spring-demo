@@ -1,5 +1,6 @@
 package pe.gob.contraloria.demo.business.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,17 +23,17 @@ public class MenuServiceImpl implements MenuService {
 	@Override
 	public MenuResponse get(String code) {
 		
-		 Menu menu = menuRepository.findFirstByCode(code);
+		 Menu menu = menuRepository.findFirstByCodeAndDeletedIsNull(code);
 		
 		 if(menu == null) return null;
 		
-		return this.convertToMenuResponse(menuRepository.findFirstByCode(code));
+		return this.convertToMenuResponse(menu);
 	}
 
 	@Override
 	public List<MenuResponse> get(Integer nroPagina, Integer regXPagina, String ordenar) {
 		
-		Page<Menu> menus = menuRepository.findAll(PageRequest.of(nroPagina, regXPagina, Sort.by(ordenar).descending()));
+		Page<Menu> menus = menuRepository.findByDeletedIsNull(PageRequest.of(nroPagina, regXPagina, Sort.by(ordenar).descending()));
 		
 		Page<MenuResponse> menusdto = menus.map(this::convertToMenuResponse);
 		
@@ -59,7 +60,21 @@ public class MenuServiceImpl implements MenuService {
 
 	@Override
 	public boolean delete(String code) {
-		return false;
+
+		Menu menu = menuRepository.findByCodeAndDeletedIsNull(code);
+		
+		if(menu == null) {
+			
+			return false;
+			
+		} else {
+			
+			menu.setDeleted(new Date());
+			menuRepository.save(menu);
+			return true;
+			
+		}
+		
 	}
 	
 	private MenuResponse convertToMenuResponse(Menu menu) {
@@ -67,18 +82,17 @@ public class MenuServiceImpl implements MenuService {
 		MenuResponse menuResponse = new MenuResponse();
 		menuResponse.setName(menu.getName());
 		return menuResponse;
+		
 	}
 	
 	private Menu convertToMenuEntity(MenuRequest menuRequest) {
 		
 		Menu menu = new Menu();
-		menu.setCode("2");
 		menu.setCodeAllow("1");
 		menu.setCodeIntern("test");
 		menu.setName(menuRequest.getName());
 		menu.setOrder(menuRequest.getOrder());
 		menu.setState("1");
-		
 		
 		return menu;
 		

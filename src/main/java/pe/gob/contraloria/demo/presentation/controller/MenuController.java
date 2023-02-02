@@ -36,14 +36,14 @@ public class MenuController {
 
 	@GetMapping("/{codigo}")
 	public ResponseEntity<ResponseApi<MenuResponse>> show(
-			@Pattern(regexp = "^[a-zA-Z0-9]{1,7}$", message = "Mínimo tiene que contener un carácter") @PathVariable(value = "codigo", required = true) String code, 
+			@Pattern(regexp = "^[a-zA-Z0-9]{1,40}$", message = "Mínimo tiene que contener un carácter") @PathVariable(value = "codigo", required = true) String code, 
 			@RequestHeader HttpHeaders headers) {
 		
 		MenuResponse obj = menuService.get(code);
 		
 		if (obj == null) return new ResponseEntity<>(new ResponseApi<>(obj,"No se encontraron registros"), HttpStatus.NOT_FOUND);	
 		
-		return new ResponseEntity<>(new ResponseApi<>(obj,"La consulta se realizo correctamente"), HttpStatus.OK);	
+		return new ResponseEntity<>(new ResponseApi<>(obj,"La consulta se realizo correctamente"), HttpStatus.OK);
 		
 	}
 
@@ -77,25 +77,24 @@ public class MenuController {
 	
 	@PutMapping("/{codigo}")
 	public ResponseEntity<ResponseApi<MenuResponse>> update(
-			@Pattern(regexp = "^[a-zA-Z0-9]{1,7}$", message = "Mínimo tiene que contener un carácter") @PathVariable(value = "codigo", required = true) String code, 
-			@RequestBody MenuRequest menuRequest, 
+			@Pattern(regexp = "^[a-zA-Z0-9]{1,40}$", message = "Mínimo tiene que contener un carácter") @PathVariable(value = "codigo", required = true) String code, 
+			@Valid @RequestBody MenuRequest menuRequest, 
 			@RequestHeader HttpHeaders headers) {
 		
 		MenuResponse obj = menuService.update(code, menuRequest);
 		
-		if (obj == null) new ResponseEntity<>(new ResponseApi<>(obj,"La petición no se pudo realizar"), HttpStatus.NOT_ACCEPTABLE);	
+		if (obj == null) return new ResponseEntity<>(new ResponseApi<>(obj,"La petición no se pudo realizar"), HttpStatus.NOT_ACCEPTABLE);	
 		
 		return new ResponseEntity<>(new ResponseApi<>(obj,"La actualización se realizó correctamente"), HttpStatus.OK);	
 		
     }
 	
-
 	@DeleteMapping("/{codigo}")
 	public ResponseEntity<ResponseApi<String>> destroy(
-			@Pattern(regexp = "^[a-zA-Z0-9]{1,7}$", message = "Mínimo tiene que contener un carácter") @PathVariable(value = "codigo", required = true) String code, 
+			@PathVariable(value = "codigo", required = true) String code, 
 			@RequestHeader HttpHeaders headers) {
 		
-		if (!menuService.delete(code)) new ResponseEntity<>(new ResponseApi<>(null,"Error en la Eliminación"), HttpStatus.NOT_ACCEPTABLE); 
+		if (!menuService.delete(code)) return new ResponseEntity<>(new ResponseApi<>(null,"Error en la Eliminación"), HttpStatus.NOT_ACCEPTABLE); 
 		
 		return new ResponseEntity<>(new ResponseApi<>(null,"Se ha eliminado correctamente"), HttpStatus.OK);
 		

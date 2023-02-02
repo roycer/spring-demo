@@ -1,14 +1,15 @@
 package pe.gob.contraloria.demo.persistence.model;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "SSC_ABD_MENU")
@@ -17,7 +18,8 @@ public class Menu implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(generator = "uuid")
+	@GenericGenerator(name = "uuid", strategy = "uuid2")
 	@Column(name="CMEN_CODIGO", unique=true, nullable=false, precision=40)
 	private String code;
 	
@@ -37,7 +39,7 @@ public class Menu implements Serializable {
 	private String state;
 	
 	@Column(name="DMEN_FEC_ELI", nullable=true)
-	private Timestamp deleted;
+	private Date deleted;
 	
 	public Menu() {
 		super();
@@ -97,18 +99,13 @@ public class Menu implements Serializable {
 		this.order = order;
 	}
 
-	public Timestamp getDeleted() {
+	public Date getDeleted() {
 		return deleted;
 	}
 
-	public void setDeleted(Timestamp deleted) {
+	public void setDeleted(Date deleted) {
 		this.deleted = deleted;
 	}
 
-
-	
-	
-	
-	
 }
 
